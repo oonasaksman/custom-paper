@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import './canvas.css';
+import Edit from './Edit.js'
 // import loveletter from './loveletter.png';
   
 export default function Home() {
@@ -14,6 +15,11 @@ export default function Home() {
   useEffect(() => {
     drawLines();
   }, [bgColor]);
+
+
+  function handleColor (color) {
+      setBgColor(color)
+  }
 
   const drawLines = () => {
     const canvas = canvasRef.current;
@@ -50,7 +56,7 @@ export default function Home() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('download.pdf');
+      pdf.save('letterpaper.pdf');
     });
   };
 
@@ -64,23 +70,9 @@ export default function Home() {
           <img src='loveletter.png' className='loveletter'></img>
         </div>
 
-        
-
           <div className='pageEditContainer'>
 
-
-            <div className='editContainer'>
-              <div className='editBlock'>
-                <label htmlFor="bgColor">Background Color:</label>
-                <input
-                  type="color"
-                  id="bgColor"
-                  value={bgColor}
-                  onChange={(e) => setBgColor(e.target.value)}
-                />
-              </div>
-            </div>
-
+            <Edit handleColor={handleColor} bgColor={bgColor}></Edit>
             <div className="canvasContainer">
               <canvas
                 ref={canvasRef}
