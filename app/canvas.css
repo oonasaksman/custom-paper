@@ -1,0 +1,98 @@
+* { margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+.canvasContainer {
+    aspect-ratio: 210 / 297;
+    width: 100%;
+    /* max-width: 210mm; */
+    height: 100%;
+    filter: drop-shadow(0 0 0.5rem grey);
+    grid-area: right;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-right: 6em;
+
+    width: calc(210px * 3.78 * 0.60);
+    height: calc(297px * 3.78 * 0.60);
+}
+
+.canvas {
+     width: 100%;
+    height: 100%;
+    aspect-ratio: 210/297;
+/* 
+    width: calc(210px * 3.78 * 0.60);
+    height: calc(297px * 3.78 * 0.60); */
+    /* transform: scale(0.90) */
+    /* transform: scale(0.7) */
+}
+
+.editContainer {
+    margin-top: 2em;
+    margin-bottom: 4em;
+    min-width: calc(210px * 3.78 * 0.60);
+    padding-bottom:100%;
+    width: 100%;
+    height: 0px;
+    background-color: rgba(255, 230, 87, 0.418);
+    border-radius: 2em;
+    padding-top: 0px;
+}
+
+.editBlock {
+    grid-area: left;
+
+}
+
+.pageEditContainer {
+    max-height: 90vh;
+    max-width: 100vw;
+    display: grid;
+    justify-items: center;
+    grid-template-areas: "left right";
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10%;
+    bottom: 0;
+    overflow: hidden;
+    margin-left: 6em;
+    /* margin-right: 2em; */
+    /* align-self: center; */
+    grid-area: editor;
+}
+
+.container {
+    height: 100vh;
+    display:grid;
+    grid-template-areas: 
+    "header"
+    "editor"
+    "download"
+    ;
+}
+
+.download {
+    grid-area: download;
+    width: 10em;
+    height: 20px;
+    margin-left: 8em;
+}
+
+.header {
+    grid-area: header;
+    padding-top: 1.5em;
+    padding-left: 6em;
+
+}
+
+.loveletter {
+    height: 30px;
+    width: 40px;
+    transform: translateY(4px);
+
+}
+
+.title {
+    display: inline;
+}

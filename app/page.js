@@ -1,95 +1,103 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 
+"use client";
+import React, { useRef, useState, useEffect } from 'react';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import './canvas.css';
+// import loveletter from './loveletter.png';
+  
 export default function Home() {
+  const [bgColor, setBgColor] = useState('#ffffff');
+  const canvasRef = useRef(null);
+
+
+  useEffect(() => {
+    drawLines();
+  }, [bgColor]);
+
+  const drawLines = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const lineHeight = 40; // distance between lines
+    const lineStart = 60;
+
+    // Set the background color
+    context.fillStyle = bgColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw lines
+    context.strokeStyle = '#000000'; // color of the lines
+    context.lineWidth = 0.3;
+
+    for (let y = lineStart; y < canvas.height - 50; y += lineHeight) {
+      context.beginPath();
+      context.moveTo(45, y); //first number where begins
+      context.lineTo(canvas.width -45, y);
+      context.stroke();
+    }
+  };
+
+  const handleDownloadPdf = () => {
+    const input = canvasRef.current;
+
+    html2canvas(input, {
+      useCORS: true,
+      scale: 3,
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('download.pdf');
+    });
+  };
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+
+      <div className='container'>
+
+        <div className='header'>
+          <h2 className='title'>Letter Paper Customizer </h2>
+          <img src='loveletter.png' className='loveletter'></img>
         </div>
+
+        
+
+          <div className='pageEditContainer'>
+
+
+            <div className='editContainer'>
+              <div className='editBlock'>
+                <label htmlFor="bgColor">Background Color:</label>
+                <input
+                  type="color"
+                  id="bgColor"
+                  value={bgColor}
+                  onChange={(e) => setBgColor(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="canvasContainer">
+              <canvas
+                ref={canvasRef}
+                width={210 * 3.78} // A4 width in mm to pixels (1 mm = 3.78 pixels)
+                height={297 * 3.78} // A4 height in mm to pixels
+                className="canvas"
+              ></canvas>
+            </div>
+          </div>
+
+
+        <button className='download' onClick={handleDownloadPdf}>Download as PDF</button>
+
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   );
 }
+  
+  // export default Home;
+  
