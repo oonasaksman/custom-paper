@@ -12,7 +12,7 @@
 }
 
 .editOptions > div:hover {
-    background-color: gray;
+    background-color: rgb(243, 138, 0);
     cursor: pointer;
 }
 
@@ -29,6 +29,13 @@
     grid-area: sticker;
 }
 
-.editColor {
+.editColor, .editText {
     margin: 2em;
+}
+
+
+.color.active,
+.text.active,
+.sticker.active {
+  background-color: rgb(255, 158, 67); /* Or any color you prefer */
 }
