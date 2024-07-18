@@ -1,0 +1,34 @@
+.editOptions {
+    display: grid;
+    grid-template-areas: "color text sticker";
+    justify-content: space-around;
+}
+
+.editOptions > div {
+    background-color: white;
+    border-radius: 2em;
+    padding: 1em 2em;
+    margin-top: 1em;
+}
+
+.editOptions > div:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.color{
+    grid-area: color;
+
+}
+
+.text {
+    grid-area: text;
+}
+
+.sticker {
+    grid-area: sticker;
+}
+
+.editColor {
+    margin: 2em;
+}
